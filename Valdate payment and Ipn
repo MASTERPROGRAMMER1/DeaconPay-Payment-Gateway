@@ -1,0 +1,38 @@
+Validate The Payment and IPN
+This section describes the process to get your instant payment notification.
+
+
+To initiate the payment follow the example code and be careful with the perameters. You will need to make request with these following API end points.
+
+End Point: Your business application ipn url.
+
+Request Method: POST
+
+You will get following parameters below.
+
+status	-Payment success status.
+identifier	- Identifier is basically for identify payment at your end.
+signature	- A hash signature to verify your payment at your end.
+data -	Data contains some basic information with charges, amount, currency, payment transaction id etc.
+
+
+EXAMPLE PHP code
+
+<?php
+    //Receive the response parameter
+    $status = $_POST['status'];
+    $signature = $_POST['signature'];
+    $identifier = $_POST['identifier'];
+    $data = $_POST['data'];
+
+    // Generate your signature
+    $customKey = $data['amount'].$identifier;
+    $secret = 'YOUR_SECRET_KEY';
+    $mySignature = strtoupper(hash_hmac('sha256', $customKey , $secret));
+
+    $myIdentifier = 'YOUR_GIVEN_IDENTIFIER';
+
+    if($status == "success" && $signature == $mySignature &&  $identifier ==  $myIdentifier){
+        //your operation logic
+    }
+?>
