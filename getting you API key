@@ -1,0 +1,7 @@
+Get The Api Key
+Login to your DeaconPAY merchant account. If you don't have any ? https://deaconpay.com/merchant
+
+Next step is to find the Api Key menu in your dashboard sidebar. Click the menu.
+
+The api keys can be found there which is Public key and Secret key. Use these keys to initiate the API request. 
+Every time you can generate new API key by clicking Generate Api Key button. Remember do not share these keys with anyone.
