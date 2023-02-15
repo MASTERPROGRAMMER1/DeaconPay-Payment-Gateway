@@ -1,0 +1,82 @@
+Initiate Payment - This section describes the process of initaiing the payment.
+
+
+To initiate the payment follow the example code and be careful with the perameters. You will need to make request with these following API end points.
+
+Live End Point: https://deaconpay.com/payment/initiate
+
+Test End Point:
+https://deaconpay.com/sandbox/payment/initiate
+Test Mode Mail: test_mode@mail.com
+
+Test Mode Verification Code: 222666
+
+Request Method: POST
+
+Request to the end point with the following parameters below.
+
+public_key	- string (50) (	Required )Your Public API key
+
+identifier	string (20)	Required Identifier is basically for identify payment at your end
+currency	string (4)	Required Currency Code, Must be in Upper Case. e.g. USD,EUR
+amount	decimal	Required Payment amount.
+details	string (100)	Required Details of your payment or transaction.
+ipn_url	string	Required The url of instant payment notification.
+success_url	string	Required Payment success redirect url.
+cancel_url	string	Required Payment cancel redirect url.
+site_logo	string/url	Required Your business site logo.
+checkout_theme	string	Optional Checkout form theme dark/light. Default theme is light
+customer_name	string (30)	Required Customer name.
+customer_email	string (30)	Required Customer valid email.
+
+
+Example PHP code
+
+<?php
+    $parameters = [
+        'identifier' => 'DFU80XZIKS',
+        'currency' => 'USD',
+        'amount' => 100.00,
+        'details' => 'Purchase T-shirt',
+        'ipn_url' => 'http://example.com/ipn_url.php',
+        'cancel_url' => 'http://example.com/cancel_url.php',
+        'success_url' => 'http://example.com/success_url.php',
+        'public_key' => 'your_public_key',
+        'site_logo' => 'https://deaconpay.com/assets/images/logoIcon/logo.png',
+        'checkout_theme' => 'dark',
+        'customer_name' => 'John Doe',
+        'customer_email' => 'john@mail.com',
+
+    ]; 
+
+    //live end point
+    $url = "https://deaconpay.com/payment/initiate";
+
+    //test end point
+    $url = "https://deaconpay.com/sandbox/payment/initiate";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,  $parameters);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch); 
+    curl_close($ch);
+
+    //$result contains the response back.
+?>
+
+Example Response
+
+//Error Response.
+{
+    "error": "true",
+    "message": "Invalid api key"
+}
+
+//Success Response.
+{
+    "success": "ok",
+    "message": "Payment Initiated. Redirect to url.",
+    "url":"http://example.com/initiate/payment/checkout?payment_id=eJSAASDxdrt4DASDASVNASJA7893232432cvmdsamnvASF"
+}
